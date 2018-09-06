@@ -2,6 +2,3 @@ server/build/*
 client/build/*
 stress_test/build/*
 
-server/CMakeLists.txt
-client/CMakeLists.txt
-stress_test/CMakeLists.txt
