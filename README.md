@@ -1,2 +1,3 @@
 # chat-system
-基于ubuntu(服务器)和window-Qt(客户端)的小型即时通讯系统
+小型即时通讯系统。
+此master分支适合服务端和客户端都在linux下运行，无界面，均在终端完成功能。
