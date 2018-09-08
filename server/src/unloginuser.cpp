@@ -5,7 +5,8 @@ unloginuser::unloginuser()
     recvHeadFlag      = true;
     loginTime         = 0;
     totalLengthOfData = 0;
-    loginSuccess      = false;
+    loginState        = NOLOGIN;
+    authFlag          = false;
     loginReturnFlag   = false;
     deleteFlag1       = false;
     deleteFlag2       = false;

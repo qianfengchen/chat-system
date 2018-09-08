@@ -13,10 +13,11 @@ public:
     int    m_socket;    /*未登录用户套接字*/
     int    userId;
     time_t loginTime;   /*用户连接时间*/
-    bool   loginSuccess;/*认证用户名密码标志为*/
+    int    loginState;/*认证用户名密码标志为*/
     bool   deleteFlag1;
     bool   deleteFlag2;
     bool   loginReturnFlag;
+    bool   authFlag;
 
     /*发送相关*/
     int remainSend;

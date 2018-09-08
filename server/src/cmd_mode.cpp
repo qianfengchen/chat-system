@@ -314,14 +314,23 @@ void cmd_mode::startDealCmd()
             while (loginiter != m_loginMap.end())
             {
                 loginiter->second->m_loginMsgRecv = (struct loginMessageRecv *)loginiter->second->recvbuff;
-                if(strcmp(loginiter->second->m_loginMsgRecv->name, "aa") == 0
-                        && strcmp(loginiter->second->m_loginMsgRecv->passwd, "aa") == 0)
+                if (loginiter->second->authFlag == false)
                 {
-                    /*认证成功*/
-                    cout << "用户名密码认证成功" << endl;
-                    loginiter->second->loginSuccess = true;
-                    strcpy(loginiter->second->m_loginMsgSend.result, "Y");
-                    loginiter->second->m_loginMsgSend.loginHead.userId = loginiter->second->userId;
+                    if (strcmp(loginiter->second->m_loginMsgRecv->name, "aa") == 0
+                            && strcmp(loginiter->second->m_loginMsgRecv->passwd, "aa") == 0)
+                    {
+                        /*认证成功*/
+                        cout << "用户名密码认证成功" << endl;
+                        loginiter->second->loginState = LOGINSUCCESS;
+                        strcpy(loginiter->second->m_loginMsgSend.result, "Y");
+                        loginiter->second->m_loginMsgSend.loginHead.userId = loginiter->second->userId;
+                    } else {
+                        cout << "用户名密码认证failed" << endl;
+                        loginiter->second->loginState = LOGINFAILED;
+                        strcpy(loginiter->second->m_loginMsgSend.result, "N");
+                        loginiter->second->m_loginMsgSend.loginHead.userId = loginiter->second->userId;
+                    }
+                    loginiter->second->authFlag = true;
                 }
                 if (loginiter->second->deleteFlag1 && loginiter->second->deleteFlag2)
                 {
@@ -332,15 +341,17 @@ void cmd_mode::startDealCmd()
                 }
                 if (loginiter->second->loginReturnFlag)
                 {
-                    User *user;
-                    user = new User;
-                    user->set_socket(loginiter->first);
-                    user->set_userId(loginiter->second->userId);
+                    if (loginiter->second->loginState == LOGINSUCCESS)
+                    {
+                        User *user;
+                        user = new User;
+                        user->set_socket(loginiter->first);
+                        user->set_userId(loginiter->second->userId);
 
-                    m_map.insert(pair<int, User*>(loginiter->second->userId, user));
-                    cout << "有一个正式用户" << endl;
-                    m_vcdListToIO->vcd_push(user);
-
+                        m_map.insert(pair<int, User*>(loginiter->second->userId, user));
+                        cout << "有一个正式用户" << endl;
+                        m_vcdListToIO->vcd_push(user);
+                    }
                     delete loginiter->second;
                     loginiter->second = NULL;
                     m_loginMap.erase(loginiter);

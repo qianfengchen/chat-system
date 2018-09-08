@@ -73,7 +73,7 @@ void accept_mode::func_accept ()
         while (iter != m_loginMap.end())
         {
             ev.data.fd = iter->first;//设置用于写操作的文件描述符
-            if (iter->second->loginSuccess)
+            if (iter->second->loginState != NOLOGIN)
             {
                 ev.data.fd = iter->first;//设置与要处理的事件相关的文件描述符
                 ev.events = EPOLLOUT;//设置用于注测的写操作事件
@@ -95,7 +95,7 @@ void accept_mode::func_accept ()
                   }
                   fcntl(connfd, F_SETFL, O_NONBLOCK);
 
-                  cout << "有套接字连接：" << connfd << endl;
+                  cout << "有套接字连接：" << "socket=" << connfd << "userId=" << userId << endl;
 
                   ev.data.fd = connfd;//设置用于读操作的文件描述符
                   ev.events = EPOLLIN;//设置用于注测的读操作事件
@@ -123,7 +123,7 @@ void accept_mode::func_accept ()
                   }
                   if (nread >= sizeof(baseHandle) || !m_loginMap[connfd]->recvHeadFlag)
                   {
-                      cout << connfd << " 发来登录信息" << endl;
+                      cout << "socket--" << connfd << " --发来登录信息" << endl;
                       /*如果第一次，则只接收一个头的长度*/
                       if (m_loginMap[connfd]->recvHeadFlag)
                       {
@@ -157,7 +157,6 @@ void accept_mode::func_accept ()
                               {
                                   m_loginMap[connfd]->recvHeadFlag = true;
                               }
-                              cout << "登录接收字节：" << nread << endl;
                           }else
                           {
                               deleteOneUnloginUser(connfd);
@@ -172,9 +171,8 @@ void accept_mode::func_accept ()
               else if ((events[i].events&EPOLLOUT))
               {
                   int nread;
-                  cout << "loginSuccess" << endl;
                   connfd = events[i].data.fd;
-                  /*认证成功*/
+                  /*return*/
                   nread = send(connfd, &m_loginMap[connfd]->m_loginMsgSend, sizeof(loginMessageSend), 0);
                   if (nread == 0)
                   {
@@ -186,7 +184,11 @@ void accept_mode::func_accept ()
                   {
                       ev.data.fd = connfd;//设置与要处理的事件相关的文件描述符
                       epoll_ctl(epfd, EPOLL_CTL_DEL, connfd, &ev);//注册epoll事件
-                      userId++;/*用户ID自加1,分给下个用户*/
+                      if (m_loginMap[connfd]->loginState == LOGINSUCCESS)
+                      {
+                          cout << "userId++" << endl;
+                          userId++;/*用户ID自加1,分给下个用户*/
+                      }
                       m_loginMap[connfd]->loginReturnFlag = true;
                       /*将用户从未登录链表中删除*/
                       m_loginMap.erase(connfd);

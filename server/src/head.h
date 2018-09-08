@@ -24,6 +24,8 @@
 enum cmdIdEnum{ LOGIN = 1, SENDtoONE, SENDtoOTHERS, SENDFILENAME, FILERET, SENDFILE,
                 UDPSENDFILE, UDPREGISTER, UDPRESEND, HEARTBEAT, QUIT};
 
+enum loginFlag{ LOGINSUCCESS = 1, LOGINFAILED, NOLOGIN};
+
 struct baseHandle
 {
     int cmdId;

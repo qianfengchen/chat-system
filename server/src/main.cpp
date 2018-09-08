@@ -10,7 +10,6 @@ int main()
     request_mode requestMode;
     cmd_mode     cmdMode;
 
-
     /*接口传递*/
     requestMode.setVcdListFromCmdMode(cmdMode.get_vcdListToIO());
     requestMode.setUdpFd(cmdMode.getUdpSockfd());
