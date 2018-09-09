@@ -1,7 +1,3 @@
-server/build/
-client/build/
-stress_test/build/
-
 chat-server/CMakeLists.txt.user
 client-test/CMakeLists.txt.user
 stress-test/CMakeLists.txt.user
