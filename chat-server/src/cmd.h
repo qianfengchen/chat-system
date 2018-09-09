@@ -11,7 +11,7 @@ public:
 
     CCmd();
     ~CCmd();
-    static void *startCmd(void *arg);               //新线程
+    static void *startCmd(void *arg);    //新线程
     int getUdpSockfd();
     CUserList* get_vcdListToIO();
     void startDealCmd();
@@ -25,9 +25,9 @@ public:
     void sendHeartBeat(map<int, CUser*>::iterator iter);
 
 private:
-    CList    *m_packList; //等同于I/O模块的数据包指针链表
-    CUserList   *m_unLoginList;
-    CUserList   *m_userListToIO;
+    CList     *m_packList; //等同于I/O模块的数据包指针链表
+    CUserList *m_unLoginList;
+    CUserList *m_userListToIO;
     map<int, char*> m_udpLoseMap;
     map<int, CUser*> m_map;  //等同于I/O模块本地已登录用户链表
     map<int, CUnloginuser*> m_loginMap;
