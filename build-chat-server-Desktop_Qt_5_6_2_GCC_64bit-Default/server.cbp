@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+   <FileVersion major="1" minor="6" />
+   <Project>
+      <Option title="server" />
+      <Option makefile_is_custom="1" />
+      <Option compiler="gcc" />
+      <Option virtualFolders="CMake Files\;" />
+      <Build>
+      <Target title="all">
+         <Option working_dir="/home/gt/m_workplace/chat-system/build-chat-server-Desktop_Qt_5_6_2_GCC_64bit-Default" />
+         <Option type="4" />
+         <MakeCommands>
+            <Build command="/usr/bin/make -f &quot;/home/gt/m_workplace/chat-system/build-chat-server-Desktop_Qt_5_6_2_GCC_64bit-Default/Makefile&quot;  VERBOSE=1 all" />
+            <CompileFile command="/usr/bin/make -f &quot;/home/gt/m_workplace/chat-system/build-chat-server-Desktop_Qt_5_6_2_GCC_64bit-Default/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="/usr/bin/make -f &quot;/home/gt/m_workplace/chat-system/build-chat-server-Desktop_Qt_5_6_2_GCC_64bit-Default/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="/usr/bin/make -f &quot;/home/gt/m_workplace/chat-system/build-chat-server-Desktop_Qt_5_6_2_GCC_64bit-Default/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="edit_cache">
+         <Option working_dir="/home/gt/m_workplace/chat-system/build-chat-server-Desktop_Qt_5_6_2_GCC_64bit-Default" />
+         <Option type="4" />
+         <MakeCommands>
+            <Build command="/usr/bin/make -f &quot;/home/gt/m_workplace/chat-system/build-chat-server-Desktop_Qt_5_6_2_GCC_64bit-Default/Makefile&quot;  VERBOSE=1 edit_cache" />
+            <CompileFile command="/usr/bin/make -f &quot;/home/gt/m_workplace/chat-system/build-chat-server-Desktop_Qt_5_6_2_GCC_64bit-Default/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="/usr/bin/make -f &quot;/home/gt/m_workplace/chat-system/build-chat-server-Desktop_Qt_5_6_2_GCC_64bit-Default/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="/usr/bin/make -f &quot;/home/gt/m_workplace/chat-system/build-chat-server-Desktop_Qt_5_6_2_GCC_64bit-Default/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="rebuild_cache">
+         <Option working_dir="/home/gt/m_workplace/chat-system/build-chat-server-Desktop_Qt_5_6_2_GCC_64bit-Default" />
+         <Option type="4" />
+         <MakeCommands>
+            <Build command="/usr/bin/make -f &quot;/home/gt/m_workplace/chat-system/build-chat-server-Desktop_Qt_5_6_2_GCC_64bit-Default/Makefile&quot;  VERBOSE=1 rebuild_cache" />
+            <CompileFile command="/usr/bin/make -f &quot;/home/gt/m_workplace/chat-system/build-chat-server-Desktop_Qt_5_6_2_GCC_64bit-Default/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="/usr/bin/make -f &quot;/home/gt/m_workplace/chat-system/build-chat-server-Desktop_Qt_5_6_2_GCC_64bit-Default/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="/usr/bin/make -f &quot;/home/gt/m_workplace/chat-system/build-chat-server-Desktop_Qt_5_6_2_GCC_64bit-Default/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="server">
+         <Option output="/home/gt/m_workplace/chat-system/build-chat-server-Desktop_Qt_5_6_2_GCC_64bit-Default/server" prefix_auto="0" extension_auto="0" />
+         <Option working_dir="/home/gt/m_workplace/chat-system/build-chat-server-Desktop_Qt_5_6_2_GCC_64bit-Default" />
+         <Option object_output="./" />
+         <Option type="1" />
+         <Option compiler="gcc" />
+         <Compiler>
+            <Add directory="/usr/include" />
+            <Add directory="/usr/include/c++/5" />
+            <Add directory="/usr/include/c++/5/backward" />
+            <Add directory="/usr/include/x86_64-linux-gnu" />
+            <Add directory="/usr/include/x86_64-linux-gnu/c++/5" />
+            <Add directory="/usr/lib/gcc/x86_64-linux-gnu/5/include" />
+            <Add directory="/usr/lib/gcc/x86_64-linux-gnu/5/include-fixed" />
+            <Add directory="/usr/local/include" />
+         </Compiler>
+         <MakeCommands>
+            <Build command="/usr/bin/make -f &quot;/home/gt/m_workplace/chat-system/build-chat-server-Desktop_Qt_5_6_2_GCC_64bit-Default/Makefile&quot;  VERBOSE=1 server" />
+            <CompileFile command="/usr/bin/make -f &quot;/home/gt/m_workplace/chat-system/build-chat-server-Desktop_Qt_5_6_2_GCC_64bit-Default/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="/usr/bin/make -f &quot;/home/gt/m_workplace/chat-system/build-chat-server-Desktop_Qt_5_6_2_GCC_64bit-Default/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="/usr/bin/make -f &quot;/home/gt/m_workplace/chat-system/build-chat-server-Desktop_Qt_5_6_2_GCC_64bit-Default/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="server/fast">
+         <Option output="/home/gt/m_workplace/chat-system/build-chat-server-Desktop_Qt_5_6_2_GCC_64bit-Default/server" prefix_auto="0" extension_auto="0" />
+         <Option working_dir="/home/gt/m_workplace/chat-system/build-chat-server-Desktop_Qt_5_6_2_GCC_64bit-Default" />
+         <Option object_output="./" />
+         <Option type="1" />
+         <Option compiler="gcc" />
+         <Compiler>
+            <Add directory="/usr/include" />
+            <Add directory="/usr/include/c++/5" />
+            <Add directory="/usr/include/c++/5/backward" />
+            <Add directory="/usr/include/x86_64-linux-gnu" />
+            <Add directory="/usr/include/x86_64-linux-gnu/c++/5" />
+            <Add directory="/usr/lib/gcc/x86_64-linux-gnu/5/include" />
+            <Add directory="/usr/lib/gcc/x86_64-linux-gnu/5/include-fixed" />
+            <Add directory="/usr/local/include" />
+         </Compiler>
+         <MakeCommands>
+            <Build command="/usr/bin/make -f &quot;/home/gt/m_workplace/chat-system/build-chat-server-Desktop_Qt_5_6_2_GCC_64bit-Default/Makefile&quot;  VERBOSE=1 server/fast" />
+            <CompileFile command="/usr/bin/make -f &quot;/home/gt/m_workplace/chat-system/build-chat-server-Desktop_Qt_5_6_2_GCC_64bit-Default/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="/usr/bin/make -f &quot;/home/gt/m_workplace/chat-system/build-chat-server-Desktop_Qt_5_6_2_GCC_64bit-Default/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="/usr/bin/make -f &quot;/home/gt/m_workplace/chat-system/build-chat-server-Desktop_Qt_5_6_2_GCC_64bit-Default/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      </Build>
+      <Unit filename="/home/gt/m_workplace/chat-system/chat-server/src/accept.cpp">
+         <Option target="server"/>
+      </Unit>
+      <Unit filename="/home/gt/m_workplace/chat-system/chat-server/src/accept.h">
+         <Option target="server"/>
+      </Unit>
+      <Unit filename="/home/gt/m_workplace/chat-system/chat-server/src/cmd-recv.cpp">
+         <Option target="server"/>
+      </Unit>
+      <Unit filename="/home/gt/m_workplace/chat-system/chat-server/src/cmd-recv.h">
+         <Option target="server"/>
+      </Unit>
+      <Unit filename="/home/gt/m_workplace/chat-system/chat-server/src/cmd-send.cpp">
+         <Option target="server"/>
+      </Unit>
+      <Unit filename="/home/gt/m_workplace/chat-system/chat-server/src/cmd-send.h">
+         <Option target="server"/>
+      </Unit>
+      <Unit filename="/home/gt/m_workplace/chat-system/chat-server/src/cmd.cpp">
+         <Option target="server"/>
+      </Unit>
+      <Unit filename="/home/gt/m_workplace/chat-system/chat-server/src/cmd.h">
+         <Option target="server"/>
+      </Unit>
+      <Unit filename="/home/gt/m_workplace/chat-system/chat-server/src/heartbeat.cpp">
+         <Option target="server"/>
+      </Unit>
+      <Unit filename="/home/gt/m_workplace/chat-system/chat-server/src/heartbeat.h">
+         <Option target="server"/>
+      </Unit>
+      <Unit filename="/home/gt/m_workplace/chat-system/chat-server/src/io.cpp">
+         <Option target="server"/>
+      </Unit>
+      <Unit filename="/home/gt/m_workplace/chat-system/chat-server/src/io.h">
+         <Option target="server"/>
+      </Unit>
+      <Unit filename="/home/gt/m_workplace/chat-system/chat-server/src/list.cpp">
+         <Option target="server"/>
+      </Unit>
+      <Unit filename="/home/gt/m_workplace/chat-system/chat-server/src/list.h">
+         <Option target="server"/>
+      </Unit>
+      <Unit filename="/home/gt/m_workplace/chat-system/chat-server/src/main.cpp">
+         <Option target="server"/>
+      </Unit>
+      <Unit filename="/home/gt/m_workplace/chat-system/chat-server/src/mutex.cpp">
+         <Option target="server"/>
+      </Unit>
+      <Unit filename="/home/gt/m_workplace/chat-system/chat-server/src/mutex.h">
+         <Option target="server"/>
+      </Unit>
+      <Unit filename="/home/gt/m_workplace/chat-system/chat-server/src/unloginuser.cpp">
+         <Option target="server"/>
+      </Unit>
+      <Unit filename="/home/gt/m_workplace/chat-system/chat-server/src/unloginuser.h">
+         <Option target="server"/>
+      </Unit>
+      <Unit filename="/home/gt/m_workplace/chat-system/chat-server/src/user-list.cpp">
+         <Option target="server"/>
+      </Unit>
+      <Unit filename="/home/gt/m_workplace/chat-system/chat-server/src/user-list.h">
+         <Option target="server"/>
+      </Unit>
+      <Unit filename="/home/gt/m_workplace/chat-system/chat-server/src/user.cpp">
+         <Option target="server"/>
+      </Unit>
+      <Unit filename="/home/gt/m_workplace/chat-system/chat-server/src/user.h">
+         <Option target="server"/>
+      </Unit>
+      <Unit filename="/home/gt/m_workplace/chat-system/chat-server/CMakeLists.txt">
+          <Option virtualFolder="CMake Files\" />
+      </Unit>
+   </Project>
+</CodeBlocks_project_file>
