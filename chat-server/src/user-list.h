@@ -1,5 +1,5 @@
-#ifndef CUserList_H
-#define CUserList_H
+#ifndef CUSERLIST_H
+#define CUSERLIST_H
 #include "mutex.h"
 #include "user.h"
 #include "proto.h"

@@ -316,8 +316,8 @@ void CCmd::startDealCmd()
                 loginiter->second->m_loginMsgRecv = (struct loginMessageRecv *)loginiter->second->recvbuff;
                 if (loginiter->second->authFlag == false)
                 {
-                    if (strcmp(loginiter->second->m_loginMsgRecv->name, "aa") == 0
-                            && strcmp(loginiter->second->m_loginMsgRecv->passwd, "aa") == 0)
+                    if (strcmp(loginiter->second->m_loginMsgRecv->name, "admin") == 0
+                            && strcmp(loginiter->second->m_loginMsgRecv->passwd, "admin") == 0)
                     {
                         /*认证成功*/
                         cout << "用户名密码认证成功" << endl;

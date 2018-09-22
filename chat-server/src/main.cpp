@@ -2,6 +2,7 @@
 #include "accept.h"
 #include "io.h"
 #include "cmd.h"
+#include "sqlite.h"
 using namespace std;
 
 int main()
