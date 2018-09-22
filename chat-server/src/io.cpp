@@ -44,7 +44,7 @@ void CIo::epollRead(int sockfd)
     ioctl(sockfd, FIONREAD, &nread);
     if (nread == 0)
     {
-        cout << "ioctl = 0" << endl;
+        cout << "client(socket) " << sockfd << " has quit" << endl;
         deleteloginUser(sockfd);
         return;
     }

@@ -204,7 +204,7 @@ void CCmd::setWriteSocketFdFlag(char *pack)
 
         case UDPREGISTER:
             fileTmp = (struct fileRecv *)pack;
-            cout << head->userId << "注册成功" << endl;
+            //cout << head->userId << "注册成功" << endl;
             clientaddr = m_packList->packPop();
             m_map[head->userId]->clientaddrUdp = (struct sockaddr_in *)(clientaddr);
             delete pack;
@@ -226,6 +226,20 @@ void CCmd::setWriteSocketFdFlag(char *pack)
             pack = NULL;
         break;
     }
+}
+
+void CCmd::printAllLoginUser()
+{
+    map<int, CUser*>::iterator iter;
+    iter = m_map.begin();
+    cout << "login user list now:" << endl;
+    cout << "+++++++++++++++++++++++++++" << endl;
+    while(iter != m_map.end()) {
+
+        cout << "userid:" << iter->second->getUserId() << "  socket:" << iter->second->getSocket() << endl;
+        iter++;
+    }
+    cout << "+++++++++++++++++++++++++++" << endl;
 }
 
 /*线程启动函数*/
@@ -302,6 +316,7 @@ void CCmd::startDealCmd()
                         delete(iter->second);
                         iter->second = NULL;
                         m_map.erase(iter);
+                        printAllLoginUser();
                     }
                     iter++;
                 }
@@ -320,7 +335,7 @@ void CCmd::startDealCmd()
                             && strcmp(loginiter->second->m_loginMsgRecv->passwd, "admin") == 0)
                     {
                         /*认证成功*/
-                        cout << "用户名密码认证成功" << endl;
+                        //cout << "用户名密码认证成功" << endl;
                         loginiter->second->loginState = LOGINSUCCESS;
                         strcpy(loginiter->second->m_loginMsgSend.result, "Y");
                         loginiter->second->m_loginMsgSend.loginHead.userId = loginiter->second->m_userId;
@@ -349,8 +364,9 @@ void CCmd::startDealCmd()
                         user->setUserId(loginiter->second->m_userId);
 
                         m_map.insert(pair<int, CUser*>(loginiter->second->m_userId, user));
-                        cout << "有一个正式用户" << endl;
+                        //cout << "有一个正式用户" << endl;
                         m_userListToIO->vcdPush(user);
+                        printAllLoginUser();
                     }
                     delete loginiter->second;
                     loginiter->second = NULL;

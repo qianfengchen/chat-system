@@ -95,7 +95,7 @@ void CAccept::funcAccept ()
                   }
                   fcntl(m_connfd, F_SETFL, O_NONBLOCK);
 
-                  cout << "有套接字连接：" << "socket=" << m_connfd << "userId=" << m_userId << endl;
+                  cout << "有套接字连接:" << " socket=" << m_connfd << "  userId=" << m_userId << endl;
 
                   m_ev.data.fd = m_connfd;//设置用于读操作的文件描述符
                   m_ev.events = EPOLLIN;//设置用于注测的读操作事件
@@ -123,7 +123,7 @@ void CAccept::funcAccept ()
                   }
                   if (m_nread >= sizeof(baseHandle) || !m_loginMap[m_connfd]->recvHeadFlag)
                   {
-                      cout << "socket--" << m_connfd << " --发来登录信息" << endl;
+                      //cout << "socket--" << m_connfd << " --发来登录信息" << endl;
                       /*如果第一次，则只接收一个头的长度*/
                       if (m_loginMap[m_connfd]->recvHeadFlag)
                       {
@@ -186,7 +186,7 @@ void CAccept::funcAccept ()
                       epoll_ctl(m_epfd, EPOLL_CTL_DEL, m_connfd, &m_ev);//注册epoll事件
                       if (m_loginMap[m_connfd]->loginState == LOGINSUCCESS)
                       {
-                          cout << "userId++" << endl;
+                          //cout << "userId++" << endl;
                           m_userId++;/*用户ID自加1,分给下个用户*/
                       }
                       m_loginMap[m_connfd]->loginReturnFlag = true;

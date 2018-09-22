@@ -23,6 +23,7 @@ public:
     void setPackListFromIO(CList *packList);    //I/O模块数据包指针链表接口
     void setUnloginUserListFromIO(CUserList *unloginUserList);
     void sendHeartBeat(map<int, CUser*>::iterator iter);
+    void printAllLoginUser();
 
 private:
     CList     *m_packList; //等同于I/O模块的数据包指针链表
