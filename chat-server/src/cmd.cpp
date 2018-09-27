@@ -8,7 +8,7 @@ CCmd::CCmd()
     bzero(&m_serveraddrUdp,0);
     m_serveraddrUdp.sin_family = AF_INET;//sin_family，协议族内一员
     m_serveraddrUdp.sin_port = htons(8888);//端口号，网络字节序,要转换成大端模式
-    inet_aton("127.0.0.1",&(m_serveraddrUdp.sin_addr));//ip地址号，网络字节序，十进制与32位地址之间的转换
+    inet_aton("0.0.0.0", &(m_serveraddrUdp.sin_addr));//ip地址号，网络字节序，十进制与32位地址之间的转换
     bind(m_udpsock, (struct sockaddr *)(&m_serveraddrUdp), sizeof(m_serveraddrUdp));//绑定套节字并强转成struct sockaddr *型
     /******************************/
     m_num = 0;

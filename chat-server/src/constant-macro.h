@@ -1,7 +1,7 @@
 #ifndef CONSTANT_MACRO_H
 #define CONSTANT_MACRO_H
 
-#define IP "127.0.0.1"
+#define IP "0.0.0.0"
 #define BUFSIZE 1024*1000
 #define PORT 8884
 #define LISTENNUM 1000

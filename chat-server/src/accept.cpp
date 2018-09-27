@@ -123,7 +123,7 @@ void CAccept::funcAccept ()
                   }
                   if (m_nread >= sizeof(baseHandle) || !m_loginMap[m_connfd]->recvHeadFlag)
                   {
-                      //cout << "socket--" << m_connfd << " --发来登录信息" << endl;
+                      cout << "socket--" << m_connfd << " --发来登录信息" << endl;
                       /*如果第一次，则只接收一个头的长度*/
                       if (m_loginMap[m_connfd]->recvHeadFlag)
                       {
