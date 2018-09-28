@@ -1,15 +1,16 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include <iostream>
+using namespace std;
+
 #include <QMainWindow>
 #include <winsock2.h>
 #include <QDebug>
 
-#include <iostream>
-using namespace std;
-
-#define SERVER_IP "192.168.0.108"
-#define PORT 8884
+#include "constant-macro.h"
+#include "user.h"
+#pragma pack(1)
 
 namespace Ui {
 class MainWindow;
@@ -28,7 +29,7 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
-    SOCKET m_socket;
+    CUser *m_user;
 };
 
 #endif // MAINWINDOW_H
