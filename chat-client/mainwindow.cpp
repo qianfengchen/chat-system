@@ -23,10 +23,11 @@ MainWindow::MainWindow(QWidget *parent) :
 
     m_user->m_servaddr.sin_family = AF_INET;
     m_user->m_servaddr.sin_port = htons(PORT);
-    m_user->m_servaddr.sin_addr.S_un.S_addr = inet_addr(SERVER_IP);
+
 
     ui->lineEditUsername->setText("admin");
     ui->lineEditPasswd->setText("admin");
+    ui->lineEditServerIp->setText("192.168.");
 }
 
 MainWindow::~MainWindow()
@@ -34,9 +35,24 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+void MainWindow::closeEvent(QCloseEvent *event)
+{
+    switch(QMessageBox::information(this, tr("exit tip"), tr("Do you really want exit?"), tr("Yes"), tr("No"), 0, 1))
+    {
+        case 0:
+             event->accept();
+             break;
+        case 1:
+        default:
+             event->ignore();
+             break;
+    }
+}
+
 void MainWindow::on_pushButtonLogin_clicked()
 {
-
+    //m_user->m_servaddr.sin_addr.S_un.S_addr = inet_addr(SERVER_IP);
+    m_user->m_servaddr.sin_addr.S_un.S_addr = inet_addr(ui->lineEditServerIp->text().toLatin1());
     if (::connect(m_user->m_sockfd, (sockaddr *)&m_user->m_servaddr, sizeof(m_user->m_servaddr)) == SOCKET_ERROR)
     {
         cout << "connect error !" << endl;
@@ -47,9 +63,9 @@ void MainWindow::on_pushButtonLogin_clicked()
     }
 
     memset(m_user->m_loginSendMsg.name, 0, 50);
-    strcpy(m_user->m_loginSendMsg.name, "admin");
+    strcpy(m_user->m_loginSendMsg.name, ui->lineEditUsername->text().toLatin1());
     memset(m_user->m_loginSendMsg.passwd, 0, 20);
-    strcpy(m_user->m_loginSendMsg.passwd, "admin");
+    strcpy(m_user->m_loginSendMsg.passwd, ui->lineEditPasswd->text().toLatin1());
 
     int ret;
     m_user->m_loginSendMsg.loginHead.cmdId = LOGIN;
@@ -71,6 +87,9 @@ void MainWindow::on_pushButtonLogin_clicked()
         cout << "your userId is: " << m_user->m_loginRecvMsg.loginHead.userId << endl;
         m_user->m_userId = m_user->m_loginRecvMsg.loginHead.userId;
         //fcntl(m_user->m_sockfd, F_SETFL, O_NONBLOCK);
+        this->hide();
+        m_chatGui = new CchatGui;
+        m_chatGui->show();
     }else
     {
         cout << "input error" << endl;

@@ -2,7 +2,7 @@
 #define CONSTANTMACRO_H
 
 
-#define SERVER_IP "192.168.0.107"
+#define SERVER_IP "192.168.0.104"
 #define PORT 8884
 
 enum cmdIdEnum{ LOGIN = 1, SENDtoONE, SENDtoOTHERS, SENDFILENAME,
