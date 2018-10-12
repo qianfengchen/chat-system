@@ -6,6 +6,15 @@ CchatGui::CchatGui(QWidget *parent) :
     ui(new Ui::CchatGui)
 {
     ui->setupUi(this);
+
+    ui->tableWidget->setColumnCount(1);
+    QStringList mHeader;
+    mHeader<<QString("在线列表");
+    ui->tableWidget->setHorizontalHeaderLabels(mHeader);
+    ui->tableWidget->horizontalHeaderItem(0)->setTextAlignment(Qt::AlignLeft);
+
+    ui->tableWidget->insertRow(0);
+    ui->tableWidget->setItem(0, 0, new QTableWidgetItem("name"));
 }
 
 CchatGui::~CchatGui()

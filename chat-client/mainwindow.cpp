@@ -51,8 +51,8 @@ void MainWindow::closeEvent(QCloseEvent *event)
 
 void MainWindow::on_pushButtonLogin_clicked()
 {
-    //m_user->m_servaddr.sin_addr.S_un.S_addr = inet_addr(SERVER_IP);
-    m_user->m_servaddr.sin_addr.S_un.S_addr = inet_addr(ui->lineEditServerIp->text().toLatin1());
+    m_user->m_servaddr.sin_addr.S_un.S_addr = inet_addr(SERVER_IP);
+    //m_user->m_servaddr.sin_addr.S_un.S_addr = inet_addr(ui->lineEditServerIp->text().toLatin1());
     if (::connect(m_user->m_sockfd, (sockaddr *)&m_user->m_servaddr, sizeof(m_user->m_servaddr)) == SOCKET_ERROR)
     {
         cout << "connect error !" << endl;
@@ -81,18 +81,19 @@ void MainWindow::on_pushButtonLogin_clicked()
     {
         return;
     }
-    if(strcmp(m_user->m_loginRecvMsg.result, "Y") == 0)
+    if(strcmp(m_user->m_loginRecvMsg.result, "N") == 0)
+    {
+        cout << "input error" << endl;
+        exit(0);
+    }else
     {
         cout << "µÇÂ¼³É¹¦£¡" << endl;
         cout << "your userId is: " << m_user->m_loginRecvMsg.loginHead.userId << endl;
         m_user->m_userId = m_user->m_loginRecvMsg.loginHead.userId;
+        cout << m_user->m_loginRecvMsg.result << endl;
         //fcntl(m_user->m_sockfd, F_SETFL, O_NONBLOCK);
         this->hide();
         m_chatGui = new CchatGui;
         m_chatGui->show();
-    }else
-    {
-        cout << "input error" << endl;
-        exit(0);
     }
 }

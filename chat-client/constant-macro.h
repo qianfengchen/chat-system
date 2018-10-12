@@ -2,7 +2,7 @@
 #define CONSTANTMACRO_H
 
 
-#define SERVER_IP "192.168.0.104"
+#define SERVER_IP "192.168.112.88"
 #define PORT 8884
 
 enum cmdIdEnum{ LOGIN = 1, SENDtoONE, SENDtoOTHERS, SENDFILENAME,
@@ -26,7 +26,7 @@ struct loginMessageSend
 struct loginMessageRecv
 {
     struct baseHandle loginHead;
-    char result[2];
+    char result[1024];
 };
 
 #endif // CONSTANTMACRO_H
