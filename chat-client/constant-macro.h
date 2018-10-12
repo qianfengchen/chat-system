@@ -1,9 +1,12 @@
 #ifndef CONSTANTMACRO_H
 #define CONSTANTMACRO_H
 
+#include <iostream>
+using namespace std;
 
 #define SERVER_IP "192.168.112.88"
 #define PORT 8884
+#define USERLISTLENGTH 1024
 
 enum cmdIdEnum{ LOGIN = 1, SENDtoONE, SENDtoOTHERS, SENDFILENAME,
                 FILERET, SENDFILE, UDPSENDFILE, UDPREGISTER, UDPRESEND, HEARTBEAT, QUIT};

@@ -33,6 +33,9 @@
        <property name="rowCount">
         <number>0</number>
        </property>
+       <attribute name="verticalHeaderStretchLastSection">
+        <bool>false</bool>
+       </attribute>
       </widget>
      </item>
      <item>

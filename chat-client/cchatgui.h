@@ -5,6 +5,8 @@
 #include <QCloseEvent>
 #include <QMessageBox>
 
+#include "constant-macro.h"
+
 namespace Ui {
 class CchatGui;
 }
@@ -18,6 +20,7 @@ public:
     ~CchatGui();
 
     void closeEvent(QCloseEvent *event);
+    void setUserList(char *userList);
 
 private slots:
     void on_pushButtonQuit_clicked();

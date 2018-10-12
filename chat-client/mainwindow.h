@@ -1,9 +1,6 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include <iostream>
-using namespace std;
-
 #include <QMainWindow>
 #include <winsock2.h>
 #include <QDebug>

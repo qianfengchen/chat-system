@@ -33,6 +33,8 @@ MainWindow::MainWindow(QWidget *parent) :
 MainWindow::~MainWindow()
 {
     delete ui;
+    delete m_user;
+    delete m_chatGui;
 }
 
 void MainWindow::closeEvent(QCloseEvent *event)
@@ -93,7 +95,8 @@ void MainWindow::on_pushButtonLogin_clicked()
         cout << m_user->m_loginRecvMsg.result << endl;
         //fcntl(m_user->m_sockfd, F_SETFL, O_NONBLOCK);
         this->hide();
-        m_chatGui = new CchatGui;
+        m_chatGui = new CchatGui();
+        m_chatGui->setUserList(m_user->m_loginRecvMsg.result);
         m_chatGui->show();
     }
 }
