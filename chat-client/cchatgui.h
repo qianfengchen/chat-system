@@ -20,16 +20,20 @@ public:
     ~CchatGui();
 
     void closeEvent(QCloseEvent *event);
-    void setUserList(char *userList);
-    int getUserNum(char *userList);
-    void setUsernameIdMap(char *userList);
+    void setUserList(string userList);
+    int getUserNum(string userList);
+    void setUsernameIdMap(string userList);
+    int substring(char *strAll, const char *strFind);
+    void setUserListstrToList(string userList);
 
 private slots:
     void on_pushButtonQuit_clicked();
 
 private:
     Ui::CchatGui *ui;
-    map<int, char*> m_mapUserNameId;
+    map<string, string> m_mapUserNameId;
+    int m_onLineUserNumwithoutMe;
+    list<string> m_userlist;
 };
 
 #endif // CCHATGUI_H

@@ -21,61 +21,86 @@ CchatGui::~CchatGui()
     delete ui;
 }
 
-int substring(char *strAll, const char *strFind)
+int CchatGui::substring(char *strAll, const char *strFind)
 {
     int num = 0;
     char *p = NULL;//任意附个初始值
     do {
         p = strstr(strAll, strFind);//1.p指针指向strstr的返回值。3.再一次循环到 这里函数的参数发生变化，p重新指向strstr返回值，如此循环。
-        if(p != NULL) {
+        if (p != NULL) {
             strAll = p + 1;//2.str同样指向strstr返回值p的下一个地址。
             num = num + 1;
         }
-    } while(p != NULL);
+    } while (p != NULL);
     return num;
 }
 
-
-int CchatGui::getUserNum(char *userList)
+int CchatGui::getUserNum(string userList)
 {
     int userNum = 0;
-    char strUserNum[20];
-    if (strcmp(userList, "nouser") == 0) {//没有在线用户
-        ui->labelOnlineNum->setText("1");//自己一个人在线
+    char strUserList[20];
+    if (strcmp(userList.data(), "nouser") == 0) {//没有在线用户
+        ui->labelOnlineNum->setText("0");//自己一个人在线
         return 0;
     }
 
-    userNum = substring(userList, "&&");
-    sprintf(strUserNum, "%d", userNum + 1);//加一是自己
-    ui->labelOnlineNum->setText(strUserNum);
+    int fi = userList.find("&&", 0);
+    while (fi != userList.npos)
+    {
+        userNum ++;
+        fi = userList.find("&&", fi + 1);
+    }
+    sprintf(strUserList, "%d", userNum);
+    ui->labelOnlineNum->setText(strUserList);
     return userNum;
 }
 
-void CchatGui::setUsernameIdMap(char *userList)
+void CchatGui::setUserListstrToList(string userList)
 {
-    char *strName = new char[50];
-    strcpy(strName, "abc");
-    m_mapUserNameId.insert(pair<int, char*>(1, strName));
-    m_mapUserNameId.insert(pair<int, char*>(2, strName));
-    m_mapUserNameId.insert(pair<int, char*>(3, strName));
-    m_mapUserNameId.insert(pair<int, char*>(4, strName));
+    int start = 0;
+    int end = userList.find("&&", 0);
+    while (end != userList.npos)
+    {
+        m_userlist.push_back(userList.substr(start, end - start));
+        start = end + 2;
+        end = userList.find("&&", end + 1);
+    }
+}
+
+void CchatGui::setUsernameIdMap(string userList)
+{
+    int userid;
+    string strName;
+    string strUserid;
+    setUserListstrToList(userList);
+    //cout << m_userlist.size() << endl;
+    list<string>::iterator iter;
+    for (iter = m_userlist.begin(); iter != m_userlist.end(); iter++) {
+        //cout << *iter << endl;
+        strName = (*iter).substr(0, (*iter).find(",", 0));
+        strUserid = (*iter).substr((*iter).find(",", 0) + 1, (*iter).size());
+        //cout << strName << " " << strUserid << endl;
+        m_mapUserNameId.insert(pair<string, string>(strUserid, strName));
+    }
 }
 
 
-void CchatGui::setUserList(char *userList)
+void CchatGui::setUserList(string userList)
 {
-    char tmpUserList[USERLISTSTRLENGTH];
-    strcpy(tmpUserList, userList);
-
-    int userNum = getUserNum(tmpUserList);//设置界面在线人数显示
-    setUsernameIdMap(tmpUserList);
-
-    ui->tableWidget->setRowCount(userNum);//设置行数
-    //int row = ui->tableWidget->rowCount();//插入行之前先得获取表的行数
-    //ui->tableWidget->insertRow(row);//插入一行
-    for (int i=0; i<userNum; i++)
+    m_onLineUserNumwithoutMe = getUserNum(userList);//设置界面在线人数显示
+    if (m_onLineUserNumwithoutMe != 0)
     {
-        ui->tableWidget->setItem(i, 0, new QTableWidgetItem(tmpUserList));
+        setUsernameIdMap(userList);
+
+        ui->tableWidget->setRowCount(m_onLineUserNumwithoutMe);//设置行数
+
+        map<string, string>::iterator iter;
+        int i = 0;
+        for(iter = m_mapUserNameId.begin(); iter != m_mapUserNameId.end(); iter++) {
+
+            ui->tableWidget->setItem(i, 0, new QTableWidgetItem(iter->second.data()));
+            i++;
+        }
     }
 }
 
