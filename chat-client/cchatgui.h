@@ -21,12 +21,15 @@ public:
 
     void closeEvent(QCloseEvent *event);
     void setUserList(char *userList);
+    int getUserNum(char *userList);
+    void setUsernameIdMap(char *userList);
 
 private slots:
     void on_pushButtonQuit_clicked();
 
 private:
     Ui::CchatGui *ui;
+    map<int, char*> m_mapUserNameId;
 };
 
 #endif // CCHATGUI_H
