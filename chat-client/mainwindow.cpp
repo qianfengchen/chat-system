@@ -39,16 +39,16 @@ MainWindow::~MainWindow()
 
 void MainWindow::closeEvent(QCloseEvent *event)
 {
-    switch(QMessageBox::information(this, tr("exit tip"), tr("Do you really want exit?"), tr("Yes"), tr("No"), 0, 1))
-    {
-        case 0:
-             event->accept();
-             break;
-        case 1:
-        default:
-             event->ignore();
-             break;
-    }
+//    switch(QMessageBox::information(this, tr("exit tip"), tr("Do you really want exit?"), tr("Yes"), tr("No"), 0, 1))
+//    {
+//        case 0:
+//             event->accept();
+//             break;
+//        case 1:
+//        default:
+//             event->ignore();
+//             break;
+//    }
 }
 
 void MainWindow::on_pushButtonLogin_clicked()

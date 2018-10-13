@@ -45,7 +45,7 @@
          <property name="minimumSize">
           <size>
            <width>500</width>
-           <height>250</height>
+           <height>280</height>
           </size>
          </property>
         </widget>
@@ -78,13 +78,13 @@
          <property name="minimumSize">
           <size>
            <width>250</width>
-           <height>180</height>
+           <height>150</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
            <width>16777215</width>
-           <height>180</height>
+           <height>150</height>
           </size>
          </property>
         </widget>
@@ -163,6 +163,14 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>tableWidget</tabstop>
+  <tabstop>fontComboBox</tabstop>
+  <tabstop>comboBox</tabstop>
+  <tabstop>textEdit</tabstop>
+  <tabstop>pushButtonSend</tabstop>
+  <tabstop>pushButtonQuit</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

@@ -87,6 +87,7 @@ void CchatGui::setUsernameIdMap(string userList)
 
 void CchatGui::setUserList(string userList)
 {
+    ui->tableWidget->clearContents();//首先清空
     m_onLineUserNumwithoutMe = getUserNum(userList);//设置界面在线人数显示
     if (m_onLineUserNumwithoutMe != 0)
     {
@@ -98,6 +99,8 @@ void CchatGui::setUserList(string userList)
         int i = 0;
         for(iter = m_mapUserNameId.begin(); iter != m_mapUserNameId.end(); iter++) {
 
+            //QTextBrowser *textBrowser = new QTextBrowser;
+            //ui->stackedWidget->addWidget(textBrowser);
             ui->tableWidget->setItem(i, 0, new QTableWidgetItem(iter->second.data()));
             i++;
         }
@@ -106,19 +109,26 @@ void CchatGui::setUserList(string userList)
 
 void CchatGui::closeEvent(QCloseEvent *event)
 {
-    switch(QMessageBox::information(this, tr("exit tip"), tr("Do you really want exit?"), tr("Yes"), tr("No"), 0, 1))
-    {
-        case 0:
-             event->accept();
-             break;
-        case 1:
-        default:
-             event->ignore();
-             break;
-    }
+//    switch(QMessageBox::information(this, tr("exit tip"), tr("Do you really want exit?"), tr("Yes"), tr("No"), 0, 1))
+//    {
+//        case 0:
+//             event->accept();
+//             break;
+//        case 1:
+//        default:
+//             event->ignore();
+//             break;
+//    }
 }
 
 void CchatGui::on_pushButtonQuit_clicked()
 {
     this->close();
+}
+
+void CchatGui::on_pushButtonSend_clicked()
+{
+    QString qmsg = ui->textEdit->toPlainText();
+    string msg = qmsg.toStdString();
+    cout << msg << endl;
 }

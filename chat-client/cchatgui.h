@@ -29,6 +29,8 @@ public:
 private slots:
     void on_pushButtonQuit_clicked();
 
+    void on_pushButtonSend_clicked();
+
 private:
     Ui::CchatGui *ui;
     map<string, string> m_mapUserNameId;
