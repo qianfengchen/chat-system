@@ -6,5 +6,5 @@
 #define PORT 8884
 #define LISTENNUM 1000
 #define TIMEOUT_USEC 1000
-
+#define USERNAMELENGTH 30
 #endif // CONSTANT_MACRO_H

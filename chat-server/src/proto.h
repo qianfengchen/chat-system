@@ -51,7 +51,7 @@ struct messageRecv
 struct loginMessageSend
 {
     struct baseHandle loginHead;
-    char result[2];
+    char result[1024];
 };
 
 struct loginMessageRecv

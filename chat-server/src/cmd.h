@@ -23,6 +23,8 @@ public:
     void setPackListFromIO(CList *packList);    //I/O模块数据包指针链表接口
     void setUnloginUserListFromIO(CUserList *unloginUserList);
     void sendHeartBeat(map<int, CUser*>::iterator iter);
+    bool passwdAuth(map<int, CUnloginuser*>::iterator loginiter);
+    void fillLoginResult(map<int, CUnloginuser*>::iterator loginiter);
     void printAllLoginUser();
 
 private:

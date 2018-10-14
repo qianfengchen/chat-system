@@ -15,6 +15,9 @@ public:
     ~CUser();
     void setSocket(int socket);
     void setUserId(int userId);
+    void setUserName(char *name);
+    char *getUserName(char *name);
+    void printUserName();
     int  getSocket();
     int  getUserId();
 
@@ -40,6 +43,7 @@ public:
 
 private:
 
+    char m_userName[USERNAMELENGTH];
     int  m_socket;      /*本用户套接字*/
     int  m_userId;      /*用户id*/
 };

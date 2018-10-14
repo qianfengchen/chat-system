@@ -16,6 +16,22 @@ CUser::~CUser()
     delete m_udpSendList;
 }
 
+char *CUser::getUserName(char *name)
+{
+    strncpy(name, m_userName, USERNAMELENGTH);
+    return name;
+}
+
+void CUser::printUserName()
+{
+    cout << "  username:" << m_userName << endl;
+}
+
+void CUser::setUserName(char *name)
+{
+    strncpy(m_userName, name, USERNAMELENGTH);
+}
+
 void CUser::setSocket(int socket)
 {
     m_socket = socket;
