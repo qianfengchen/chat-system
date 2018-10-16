@@ -69,7 +69,6 @@ void CchatGui::setUserListstrToList(string userList)
 
 void CchatGui::setUsernameIdMap(string userList)
 {
-    int userid;
     string strName;
     string strUserid;
     setUserListstrToList(userList);
@@ -80,7 +79,7 @@ void CchatGui::setUsernameIdMap(string userList)
         strName = (*iter).substr(0, (*iter).find(",", 0));
         strUserid = (*iter).substr((*iter).find(",", 0) + 1, (*iter).size());
         //cout << strName << " " << strUserid << endl;
-        m_mapUserNameId.insert(pair<string, string>(strUserid, strName));
+        m_mapUserNameId.insert(pair<int, string>(atoi(strUserid.c_str()), strName));
     }
 }
 
@@ -95,7 +94,7 @@ void CchatGui::setUserList(string userList)
 
         ui->tableWidget->setRowCount(m_onLineUserNumwithoutMe);//设置行数
 
-        map<string, string>::iterator iter;
+        map<int, string>::iterator iter;
         int i = 0;
         for(iter = m_mapUserNameId.begin(); iter != m_mapUserNameId.end(); iter++) {
 
@@ -109,16 +108,16 @@ void CchatGui::setUserList(string userList)
 
 void CchatGui::closeEvent(QCloseEvent *event)
 {
-//    switch(QMessageBox::information(this, tr("exit tip"), tr("Do you really want exit?"), tr("Yes"), tr("No"), 0, 1))
-//    {
-//        case 0:
-//             event->accept();
-//             break;
-//        case 1:
-//        default:
-//             event->ignore();
-//             break;
-//    }
+    switch(QMessageBox::information(this, tr("exit tip"), tr("Do you really want exit?"), tr("Yes"), tr("No"), 0, 1))
+    {
+        case 0:
+             event->accept();
+             break;
+        case 1:
+        default:
+             event->ignore();
+             break;
+    }
 }
 
 void CchatGui::on_pushButtonQuit_clicked()
@@ -126,9 +125,23 @@ void CchatGui::on_pushButtonQuit_clicked()
     this->close();
 }
 
+void CchatGui::setUserFromMainwindow(CUser *user)
+{
+    m_user = user;
+}
+
 void CchatGui::on_pushButtonSend_clicked()
 {
     QString qmsg = ui->textEdit->toPlainText();
     string msg = qmsg.toStdString();
-    cout << msg << endl;
+
+    m_user->get_send();
+    m_user->m_MsgSend = (struct messageSend *)m_user->sendbuff;
+    strcpy(m_user->m_MsgSend->msg, msg.data());
+    m_user->m_MsgSend->head.version = 1;
+    m_user->m_MsgSend->head.userId  = m_user->m_userId;
+    m_user->m_MsgSend->head.length  = 16 + 4 + strlen(m_user->m_MsgSend->msg) + 1;
+    m_user->remainLengthofSend = m_user->m_MsgSend->head.length;
+    m_user->m_MsgSend->head.cmdId = SENDtoOTHERS;
+    m_user->haveSendFlag = 1;
 }

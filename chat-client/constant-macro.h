@@ -4,9 +4,11 @@
 #include <iostream>
 using namespace std;
 
-#define SERVER_IP "192.168.112.88"
+#define SERVER_IP "192.168.0.108"
 #define PORT 8884
 #define USERLISTSTRLENGTH 10240
+
+#pragma pack(1)
 
 enum cmdIdEnum{ LOGIN = 1, SENDtoONE, SENDtoOTHERS, SENDFILENAME,
                 FILERET, SENDFILE, UDPSENDFILE, UDPREGISTER, UDPRESEND, HEARTBEAT, QUIT};
@@ -30,6 +32,20 @@ struct loginMessageRecv
 {
     struct baseHandle loginHead;
     char result[10240];
+};
+
+struct messageSend
+{
+    struct baseHandle head;
+    int sayToClientId;
+    char msg[1024];
+};
+
+struct messageRecv
+{
+    struct baseHandle head;
+    int recvFromWhichId;
+    char msg[1024];
 };
 
 #endif // CONSTANTMACRO_H

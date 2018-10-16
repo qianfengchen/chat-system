@@ -15,12 +15,14 @@ TEMPLATE = app
 SOURCES += main.cpp\
         mainwindow.cpp \
     user.cpp \
-    cchatgui.cpp
+    cchatgui.cpp \
+    io.cpp
 
 HEADERS  += mainwindow.h \
     constant-macro.h \
     user.h \
-    cchatgui.h
+    cchatgui.h \
+    io.h
 
 FORMS    += mainwindow.ui \
     cchatgui.ui

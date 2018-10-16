@@ -6,6 +6,7 @@
 #include <QMessageBox>
 
 #include "constant-macro.h"
+#include "user.h"
 
 namespace Ui {
 class CchatGui;
@@ -25,6 +26,7 @@ public:
     void setUsernameIdMap(string userList);
     int substring(char *strAll, const char *strFind);
     void setUserListstrToList(string userList);
+    void setUserFromMainwindow(CUser *user);
 
 private slots:
     void on_pushButtonQuit_clicked();
@@ -33,9 +35,10 @@ private slots:
 
 private:
     Ui::CchatGui *ui;
-    map<string, string> m_mapUserNameId;
+    map<int, string> m_mapUserNameId;
     int m_onLineUserNumwithoutMe;
     list<string> m_userlist;
+    CUser *m_user;
 };
 
 #endif // CCHATGUI_H
