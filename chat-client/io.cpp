@@ -1,15 +1,25 @@
 #include "io.h"
-CRITICAL_SECTION CriticalSection;
 
 CIo::CIo()
 {
+    m_readList = new CSaveList;
+}
 
+CIo::~CIo()
+{
+    delete m_readList;
 }
 
 void CIo::setUserFromMainwindow(CUser *user)
 {
     m_userdata = user;
 }
+
+CSaveList *CIo::getReadList()
+{
+    return m_readList;
+}
+
 
 void CIo::Start()
 {
@@ -35,14 +45,15 @@ void CIo::Start()
 
         if (FD_ISSET(m_userdata->m_sockfd, &rset))
         {
-            ioctl(m_userdata->m_sockfd, FIONREAD, &nread);
-            if (nread == 0)
-            {
-                cout << "ioctl = 0" << endl;
-                exit(0);
-            }
-            if (nread >= sizeof(baseHandle) || m_userdata->recvHeadFlag)
-            {
+//            ioctl(m_userdata->m_sockfd, FIONREAD, &nread);
+//            if (nread == 0)
+//            {
+//                cout << "ioctl = 0" << endl;
+//                exit(0);
+//            }
+//            if (nread >= sizeof(baseHandle) || m_userdata->recvHeadFlag)
+//            if (m_userdata->recvHeadFlag)
+//            {
                 /*如果是第一次,则只接收一个头*/
                 if (!m_userdata->recvHeadFlag)
                 {
@@ -72,7 +83,9 @@ void CIo::Start()
                             m_userdata->remainLengthtoRecv = m_userdata->totalLengthOfData;
                             m_userdata->lengthHasRecv = 0;
                             m_userdata->haveReadFlag = true;
-                            //m_readList->pack_push(m_userdata->recvbuff);
+//                            struct messageRecv *tmpRecv = (struct messageRecv *)m_userdata->recvbuff;
+//                            cout << tmpRecv->msg << endl;
+                            m_readList->packPush(m_userdata->recvbuff);
                         }
                     }else
                     {
@@ -80,7 +93,7 @@ void CIo::Start()
                         exit(0);
                     }
                 }
-            }
+//            }
         }
 
         if (FD_ISSET(m_userdata->m_sockfd, &wset))
@@ -113,7 +126,6 @@ DWORD WINAPI CIo::start(void *arg)//返回值一定要这样写
 
 void CIo::ioStart()
 {
-    InitializeCriticalSection(&CriticalSection);
     HANDLE Handle;
     Handle = CreateThread(NULL, 0, start, this, 0, NULL);
     CloseHandle(Handle);

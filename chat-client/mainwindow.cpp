@@ -1,6 +1,8 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
+CRITICAL_SECTION CriticalSection;
+
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
@@ -28,14 +30,6 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->lineEditUsername->setText("admin");
     ui->lineEditPasswd->setText("admin");
     ui->lineEditServerIp->setText("192.168.");
-
-    unsigned long ul = 1;
-    int nRet = ioctlsocket(m_user->m_sockfd, FIONBIO, (unsigned long*)&ul);//设置套接字非阻塞模式
-    //fcntl(m_user->m_sockfd, F_SETFL, O_NONBLOCK);//linux
-    if (nRet == SOCKET_ERROR)
-    {
-        //设置套接字非阻塞模式，失败处理
-    }
 }
 
 MainWindow::~MainWindow()
@@ -43,7 +37,6 @@ MainWindow::~MainWindow()
     delete ui;
     delete m_user;
     delete m_chatGui;
-    delete io;
 }
 
 void MainWindow::on_pushButtonLogin_clicked()
@@ -84,19 +77,30 @@ void MainWindow::on_pushButtonLogin_clicked()
         exit(0);
     }else
     {
+        InitializeCriticalSection(&CriticalSection);
+
+        unsigned long ul = 1;
+        int nRet = ioctlsocket(m_user->m_sockfd, FIONBIO, (unsigned long*)&ul);
+        //设置套接字非阻塞模式,必须在connect以后设置成非阻塞不然会connect失败返回10035
+        //fcntl(m_user->m_sockfd, F_SETFL, O_NONBLOCK);//linux
+        if (nRet == SOCKET_ERROR)
+        {
+            cout << "设置套接字非阻塞模式，失败处理" << endl;
+        }
+
         cout << "登录成功！" << endl;
         cout << "your userId is: " << m_user->m_loginRecvMsg.loginHead.userId << endl;
         m_user->m_userId = m_user->m_loginRecvMsg.loginHead.userId;
         cout << m_user->m_loginRecvMsg.result << endl;
 
+        io.setUserFromMainwindow(m_user);
+        io.ioStart();
+
         this->hide();
         m_chatGui = new CchatGui();
         m_chatGui->setUserList(m_user->m_loginRecvMsg.result);
         m_chatGui->setUserFromMainwindow(m_user);
+        m_chatGui->setReadListFromIO(io.getReadList());
         m_chatGui->show();
-
-        io = new CIo();
-        io->setUserFromMainwindow(m_user);
-        io->ioStart();
     }
 }

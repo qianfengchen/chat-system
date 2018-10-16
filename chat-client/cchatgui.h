@@ -4,9 +4,12 @@
 #include <QDialog>
 #include <QCloseEvent>
 #include <QMessageBox>
+#include <QThread>
+#include <QTimer>
 
 #include "constant-macro.h"
 #include "user.h"
+#include "savelist.h"
 
 namespace Ui {
 class CchatGui;
@@ -27,11 +30,12 @@ public:
     int substring(char *strAll, const char *strFind);
     void setUserListstrToList(string userList);
     void setUserFromMainwindow(CUser *user);
+    void setReadListFromIO(CSaveList *list);
 
 private slots:
     void on_pushButtonQuit_clicked();
-
     void on_pushButtonSend_clicked();
+    void dealWithMsg();
 
 private:
     Ui::CchatGui *ui;
@@ -39,6 +43,8 @@ private:
     int m_onLineUserNumwithoutMe;
     list<string> m_userlist;
     CUser *m_user;
+    CSaveList *m_readList;
+    QTimer *m_dealMsgTime;
 };
 
 #endif // CCHATGUI_H

@@ -14,11 +14,20 @@ CchatGui::CchatGui(QWidget *parent) :
     //ui->tableWidget->horizontalHeaderItem(0)->setTextAlignment(Qt::AlignLeft);//表格中的文字左对齐
     ui->tableWidget->horizontalHeader()->setSectionResizeMode(0, QHeaderView::Stretch);//表格自动扩展到充满表格
     ui->tableWidget->setEditTriggers(QAbstractItemView::NoEditTriggers);//表格不可编辑
+
+    m_dealMsgTime = new QTimer;
+    connect(m_dealMsgTime, SIGNAL(timeout()), this, SLOT(dealWithMsg()));
+    m_dealMsgTime->start(500);
 }
 
 CchatGui::~CchatGui()
 {
     delete ui;
+}
+
+void CchatGui::setReadListFromIO(CSaveList *list)
+{
+    m_readList = list;
 }
 
 int CchatGui::substring(char *strAll, const char *strFind)
@@ -45,7 +54,7 @@ int CchatGui::getUserNum(string userList)
     }
 
     int fi = userList.find("&&", 0);
-    while (fi != userList.npos)
+    while (fi != (int)userList.npos)
     {
         userNum ++;
         fi = userList.find("&&", fi + 1);
@@ -59,7 +68,7 @@ void CchatGui::setUserListstrToList(string userList)
 {
     int start = 0;
     int end = userList.find("&&", 0);
-    while (end != userList.npos)
+    while (end != (int)userList.npos)
     {
         m_userlist.push_back(userList.substr(start, end - start));
         start = end + 2;
@@ -144,4 +153,29 @@ void CchatGui::on_pushButtonSend_clicked()
     m_user->remainLengthofSend = m_user->m_MsgSend->head.length;
     m_user->m_MsgSend->head.cmdId = SENDtoOTHERS;
     m_user->haveSendFlag = 1;
+}
+
+void CchatGui::dealWithMsg()
+{
+    if (m_readList->getPackSize() > 0)
+    {
+        char *pack = m_readList->packPop();
+        struct baseHandle *tmp = (struct baseHandle *)pack;
+        switch(tmp->cmdId)
+        {
+            case SENDtoOTHERS:
+                m_user->m_MsgRecv = (struct messageRecv *)pack;
+                //cout << "ID " << m_user->m_MsgRecv->recvFromWhichId << "群聊说: ";
+                //cout << m_user->m_MsgRecv->msg << endl;
+                QString tmp = QString::fromStdString(m_mapUserNameId[m_user->m_MsgRecv->recvFromWhichId]) + QString(" 群聊说: ") + QString(m_user->m_MsgRecv->msg);
+                ui->textBrowser->insertPlainText(tmp);
+//                ui->textBrowser->insertPlainText(QString("ID "));
+//                ui->textBrowser->insertPlainText(m_mapUserNameId[m_user->m_MsgRecv->recvFromWhichId]);
+//                ui->textBrowser->insertPlainText(QString("群聊说： "));
+//                ui->textBrowser->insertPlainText(QString(QLatin1String(m_user->m_MsgRecv->msg)));
+
+                delete pack;
+            break;
+        }
+    }
 }

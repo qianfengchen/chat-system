@@ -16,13 +16,15 @@ SOURCES += main.cpp\
         mainwindow.cpp \
     user.cpp \
     cchatgui.cpp \
-    io.cpp
+    io.cpp \
+    savelist.cpp
 
 HEADERS  += mainwindow.h \
     constant-macro.h \
     user.h \
     cchatgui.h \
-    io.h
+    io.h \
+    savelist.h
 
 FORMS    += mainwindow.ui \
     cchatgui.ui

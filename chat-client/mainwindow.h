@@ -32,7 +32,7 @@ private:
     Ui::MainWindow *ui;
     CUser *m_user;
     CchatGui *m_chatGui;
-    CIo *io;
+    CIo io;
 };
 
 #endif // MAINWINDOW_H
