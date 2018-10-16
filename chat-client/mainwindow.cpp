@@ -26,17 +26,15 @@ MainWindow::MainWindow(QWidget *parent) :
     m_user->m_servaddr.sin_family = AF_INET;
     m_user->m_servaddr.sin_port = htons(PORT);
 
-
     ui->lineEditUsername->setText("admin");
     ui->lineEditPasswd->setText("admin");
-    ui->lineEditServerIp->setText("192.168.");
+    ui->lineEditServerIp->setText(SERVER_IP);
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
     delete m_user;
-    delete m_chatGui;
 }
 
 void MainWindow::on_pushButtonLogin_clicked()

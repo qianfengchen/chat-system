@@ -49,8 +49,8 @@ int CchatGui::getUserNum(string userList)
     int userNum = 0;
     char strUserList[20];
     if (strcmp(userList.data(), "nouser") == 0) {//没有在线用户
-        ui->labelOnlineNum->setText("0");//自己一个人在线
-        return 0;
+        ui->labelOnlineNum->setText("1");//自己一个人在线
+        return 1;
     }
 
     int fi = userList.find("&&", 0);
@@ -59,9 +59,9 @@ int CchatGui::getUserNum(string userList)
         userNum ++;
         fi = userList.find("&&", fi + 1);
     }
-    sprintf(strUserList, "%d", userNum);
+    sprintf(strUserList, "%d", userNum + 1);
     ui->labelOnlineNum->setText(strUserList);
-    return userNum;
+    return userNum + 1;
 }
 
 void CchatGui::setUserListstrToList(string userList)
@@ -97,11 +97,12 @@ void CchatGui::setUserList(string userList)
 {
     ui->tableWidget->clearContents();//首先清空
     m_onLineUserNumwithoutMe = getUserNum(userList);//设置界面在线人数显示
-    if (m_onLineUserNumwithoutMe != 0)
+    ui->tableWidget->setRowCount(m_onLineUserNumwithoutMe);//设置行数
+
+    if (m_onLineUserNumwithoutMe > 1)
     {
         setUsernameIdMap(userList);
 
-        ui->tableWidget->setRowCount(m_onLineUserNumwithoutMe);//设置行数
 
         map<int, string>::iterator iter;
         int i = 0;
@@ -112,6 +113,8 @@ void CchatGui::setUserList(string userList)
             ui->tableWidget->setItem(i, 0, new QTableWidgetItem(iter->second.data()));
             i++;
         }
+    } else {
+        ui->tableWidget->setItem(0, 0, new QTableWidgetItem("me"));
     }
 }
 
