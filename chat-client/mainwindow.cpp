@@ -89,14 +89,14 @@ void MainWindow::on_pushButtonLogin_clicked()
         cout << "µÇÂ¼³É¹¦£¡" << endl;
         cout << "your userId is: " << m_user->m_loginRecvMsg.loginHead.userId << endl;
         m_user->m_userId = m_user->m_loginRecvMsg.loginHead.userId;
-        cout << m_user->m_loginRecvMsg.result << endl;
+        //cout << m_user->m_loginRecvMsg.result << endl;
 
         io.setUserFromMainwindow(m_user);
         io.ioStart();
 
         this->hide();
         m_chatGui = new CchatGui();
-        m_chatGui->setUserList(m_user->m_loginRecvMsg.result);
+        //m_chatGui->setUserList(m_user->m_loginRecvMsg.result);
         m_chatGui->setUserFromMainwindow(m_user);
         m_chatGui->setReadListFromIO(io.getReadList());
         m_chatGui->show();

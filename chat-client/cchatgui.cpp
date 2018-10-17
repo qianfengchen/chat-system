@@ -48,10 +48,12 @@ int CchatGui::getUserNum(string userList)
 {
     int userNum = 0;
     char strUserList[20];
-    if (strcmp(userList.data(), "nouser") == 0) {//没有在线用户
-        ui->labelOnlineNum->setText("1");//自己一个人在线
-        return 1;
-    }
+
+    //这种情况不存在了因为肯定有一个自己存在
+//    if (strcmp(userList.data(), "nouser") == 0) {//没有在线用户
+//        ui->labelOnlineNum->setText("1");//自己一个人在线
+//        return 0;
+//    }
 
     int fi = userList.find("&&", 0);
     while (fi != (int)userList.npos)
@@ -59,9 +61,9 @@ int CchatGui::getUserNum(string userList)
         userNum ++;
         fi = userList.find("&&", fi + 1);
     }
-    sprintf(strUserList, "%d", userNum + 1);
+    sprintf(strUserList, "%d", userNum);
     ui->labelOnlineNum->setText(strUserList);
-    return userNum + 1;
+    return userNum;
 }
 
 void CchatGui::setUserListstrToList(string userList)
@@ -99,11 +101,9 @@ void CchatGui::setUserList(string userList)
     m_onLineUserNumwithoutMe = getUserNum(userList);//设置界面在线人数显示
     ui->tableWidget->setRowCount(m_onLineUserNumwithoutMe);//设置行数
 
-    if (m_onLineUserNumwithoutMe > 1)
+    if (m_onLineUserNumwithoutMe > 0)
     {
         setUsernameIdMap(userList);
-
-
         map<int, string>::iterator iter;
         int i = 0;
         for(iter = m_mapUserNameId.begin(); iter != m_mapUserNameId.end(); iter++) {
@@ -113,8 +113,6 @@ void CchatGui::setUserList(string userList)
             ui->tableWidget->setItem(i, 0, new QTableWidgetItem(iter->second.data()));
             i++;
         }
-    } else {
-        ui->tableWidget->setItem(0, 0, new QTableWidgetItem("me"));
     }
 }
 
@@ -166,11 +164,19 @@ void CchatGui::dealWithMsg()
         struct baseHandle *tmp = (struct baseHandle *)pack;
         switch(tmp->cmdId)
         {
+            case USERLIST:
+                m_user->m_userList = (struct userList *)pack;
+                cout << tmp->userId << "登录了" << endl;
+                setUserList(m_user->m_userList->userlist);
+                delete pack;
+            break;
+
             case SENDtoOTHERS:
                 m_user->m_MsgRecv = (struct messageRecv *)pack;
                 //cout << "ID " << m_user->m_MsgRecv->recvFromWhichId << "群聊说: ";
                 //cout << m_user->m_MsgRecv->msg << endl;
                 QString tmp = QString::fromStdString(m_mapUserNameId[m_user->m_MsgRecv->recvFromWhichId]) + QString(" 群聊说: ") + QString(m_user->m_MsgRecv->msg);
+                tmp += "\n";
                 ui->textBrowser->insertPlainText(tmp);
 //                ui->textBrowser->insertPlainText(QString("ID "));
 //                ui->textBrowser->insertPlainText(m_mapUserNameId[m_user->m_MsgRecv->recvFromWhichId]);

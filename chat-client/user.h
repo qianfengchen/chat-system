@@ -27,6 +27,7 @@ public:
     int  totalLengthOfData;                 /*数据包的总长度*/
     int  remainLengthtoRecv;                /*剩下需要接收的长度*/
     int  lengthHasRecv;                     /*已经接收的长度*/
+    struct userList *m_userList;
 
     /*发送*/
     bool haveSendFlag;

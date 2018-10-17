@@ -4,13 +4,13 @@
 #include <iostream>
 using namespace std;
 
-#define SERVER_IP "192.168.0.105"
+#define SERVER_IP "192.168.112.88"
 #define PORT 8884
-#define USERLISTSTRLENGTH 10240
+#define USERLISTSTRLENGTH 1024
 
 #pragma pack(1)
 
-enum cmdIdEnum{ LOGIN = 1, SENDtoONE, SENDtoOTHERS, SENDFILENAME,
+enum cmdIdEnum{ LOGIN = 1, USERLIST, SENDtoONE, SENDtoOTHERS, SENDFILENAME,
                 FILERET, SENDFILE, UDPSENDFILE, UDPREGISTER, UDPRESEND, HEARTBEAT, QUIT};
 
 struct baseHandle
@@ -31,7 +31,13 @@ struct loginMessageSend
 struct loginMessageRecv
 {
     struct baseHandle loginHead;
-    char result[10240];
+    char result[2];
+};
+
+struct userList
+{
+    struct baseHandle head;
+    char userlist[1024];
 };
 
 struct messageSend
