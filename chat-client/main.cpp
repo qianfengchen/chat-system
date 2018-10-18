@@ -8,7 +8,7 @@ int main(int argc, char *argv[])
 
     MainWindow w;
     w.setWindowFlags(Qt::MSWindowsFixedSizeDialogHint);
-    w.setWindowTitle("gt-chat-client");
+    //w.setWindowTitle("");
     w.show();
 
     return a.exec();

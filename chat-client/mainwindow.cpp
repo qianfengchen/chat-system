@@ -79,14 +79,14 @@ void MainWindow::on_pushButtonLogin_clicked()
 
         unsigned long ul = 1;
         int nRet = ioctlsocket(m_user->m_sockfd, FIONBIO, (unsigned long*)&ul);
-        //ÉèÖÃÌ×½Ó×Ö·Ç×èÈûÄ£Ê½,±ØÐëÔÚconnectÒÔºóÉèÖÃ³É·Ç×èÈû²»È»»áconnectÊ§°Ü·µ»Ø10035
+        //è®¾ç½®å¥—æŽ¥å­—éžé˜»å¡žæ¨¡å¼,å¿…é¡»åœ¨connectä»¥åŽè®¾ç½®æˆéžé˜»å¡žä¸ç„¶ä¼šconnectå¤±è´¥è¿”å›ž10035
         //fcntl(m_user->m_sockfd, F_SETFL, O_NONBLOCK);//linux
         if (nRet == SOCKET_ERROR)
         {
-            cout << "ÉèÖÃÌ×½Ó×Ö·Ç×èÈûÄ£Ê½£¬Ê§°Ü´¦Àí" << endl;
+            cout << "è®¾ç½®å¥—æŽ¥å­—éžé˜»å¡žæ¨¡å¼ï¼Œå¤±è´¥å¤„ç†" << endl;
         }
 
-        cout << "µÇÂ¼³É¹¦£¡" << endl;
+        cout << "ç™»å½•æˆåŠŸï¼" << endl;
         cout << "your userId is: " << m_user->m_loginRecvMsg.loginHead.userId << endl;
         m_user->m_userId = m_user->m_loginRecvMsg.loginHead.userId;
         //cout << m_user->m_loginRecvMsg.result << endl;
@@ -96,6 +96,7 @@ void MainWindow::on_pushButtonLogin_clicked()
 
         this->hide();
         m_chatGui = new CchatGui();
+        m_chatGui->setWindowTitle("ç¾¤èŠçª—å£");
         //m_chatGui->setUserList(m_user->m_loginRecvMsg.result);
         m_chatGui->setUserFromMainwindow(m_user);
         m_chatGui->setReadListFromIO(io.getReadList());
