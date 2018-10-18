@@ -90,6 +90,8 @@ void CchatGui::setUsernameIdMap(string userList)
         strUserid = (*iter).substr((*iter).find(",", 0) + 1, (*iter).size());
         //cout << strName << " " << strUserid << endl;
         m_mapUserNameId.insert(pair<int, string>(atoi(strUserid.c_str()), strName));
+        QTextBrowser *browser = new QTextBrowser;
+        m_mapUserNameBrowser.insert(pair<string, QTextBrowser*>(strName, browser));
     }
 }
 
@@ -106,9 +108,27 @@ void CchatGui::setUserList(string userList)
         int i = 0;
         for(iter = m_mapUserNameId.begin(); iter != m_mapUserNameId.end(); iter++) {
             ui->tableWidget->setItem(i, 0, new QTableWidgetItem(iter->second.data()));
+            ui->stackedWidget->addWidget(m_mapUserNameBrowser[iter->second.data()]);
+            //ui->stackedWidget->setCurrentWidget(m_mapUserNameBrowser[iter->second.data()]);
             i++;
         }
     }
+}
+
+void CchatGui::addUser(string userStr)
+{
+    cout << userStr << endl;
+    string strName = userStr.substr(0, userStr.find(",", 0));
+    string strUserid = userStr.substr(userStr.find(",", 0) + 1, userStr.size());
+    m_mapUserNameId.insert(pair<int, string>(atoi(strUserid.c_str()), strName));
+    QTextBrowser *browser = new QTextBrowser;
+    m_mapUserNameBrowser.insert(pair<string, QTextBrowser*>(strName, browser));
+    ui->stackedWidget->addWidget(browser);
+
+    int row = ui->tableWidget->rowCount();
+    ui->tableWidget->insertRow(row);
+    m_onLineUserNum++;
+    ui->tableWidget->setItem(m_onLineUserNum-1, 0, new QTableWidgetItem(strName.data()));
 }
 
 void CchatGui::closeEvent(QCloseEvent *event)
@@ -166,12 +186,13 @@ void CchatGui::dealWithMsg()
             break;
             case USERQUIT:
                 m_user->m_userList = (struct userList *)pack;
-                cout << "info:" << m_user->m_userList->userlist << endl;
+                cout << "quit:" << m_user->m_userList->userlist << endl;
                 delete pack;
             break;
             case USERLOGIN:
                 m_user->m_userList = (struct userList *)pack;
-                cout << "info:" << m_user->m_userList->userlist << endl;
+                addUser(m_user->m_userList->userlist);
+                //cout << "login:" << m_user->m_userList->userlist << endl;
                 delete pack;
             break;
             case SENDtoOTHERS:
@@ -180,7 +201,7 @@ void CchatGui::dealWithMsg()
                 QString timeStr = time.toString("yyyy-MM-dd hh:mm:ss");
                 QString tmp =   "[" + QString::fromStdString(m_mapUserNameId[m_user->m_MsgRecv->recvFromWhichId]) + "] " +
                                 timeStr + "\n" + QString(m_user->m_MsgRecv->msg) + "\n";
-                ui->textBrowser->insertPlainText(tmp);
+                m_mapUserNameBrowser[m_mapUserNameId[m_user->m_MsgRecv->recvFromWhichId]]->insertPlainText(tmp);
                 delete pack;
             break;
         }
@@ -197,4 +218,9 @@ void CchatGui::on_comboBox_currentIndexChanged(const QString &arg1)
 {
     ui->textEdit->setFontPointSize(arg1.toDouble());
     ui->textEdit->setFocus();
+}
+
+void CchatGui::on_tableWidget_itemClicked(QTableWidgetItem *item)
+{
+    ui->stackedWidget->setCurrentWidget(m_mapUserNameBrowser[item->text().toStdString()]);
 }

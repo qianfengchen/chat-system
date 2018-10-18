@@ -7,6 +7,8 @@
 #include <QThread>
 #include <QTimer>
 #include <QDateTime>
+#include <QTextBrowser>
+#include <QTableWidgetItem>
 
 #include "constant-macro.h"
 #include "user.h"
@@ -32,6 +34,7 @@ public:
     void setUserListstrToList(string userList);
     void setUserFromMainwindow(CUser *user);
     void setReadListFromIO(CSaveList *list);
+    void addUser(string userStr);
 
 private slots:
     void on_pushButtonQuit_clicked();
@@ -42,9 +45,12 @@ private slots:
 
     void on_comboBox_currentIndexChanged(const QString &arg1);
 
+    void on_tableWidget_itemClicked(QTableWidgetItem *item);
+
 private:
     Ui::CchatGui *ui;
     map<int, string> m_mapUserNameId;
+    map<string, QTextBrowser*> m_mapUserNameBrowser;
     int m_onLineUserNum;
     list<string> m_userlist;
     CUser *m_user;

@@ -41,13 +41,15 @@
      <item>
       <layout class="QVBoxLayout" name="verticalLayout">
        <item>
-        <widget class="QTextBrowser" name="textBrowser">
+        <widget class="QStackedWidget" name="stackedWidget">
          <property name="minimumSize">
           <size>
            <width>500</width>
            <height>280</height>
           </size>
          </property>
+         <widget class="QWidget" name="page_3"/>
+         <widget class="QWidget" name="page_4"/>
         </widget>
        </item>
        <item>
