@@ -4,7 +4,7 @@
 #include <iostream>
 using namespace std;
 
-#define SERVER_IP "192.168.112.88"
+#define SERVER_IP "192.168.0.101"
 #define PORT 8884
 #define USERLISTSTRLENGTH 1024
 

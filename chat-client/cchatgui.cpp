@@ -175,8 +175,11 @@ void CchatGui::dealWithMsg()
                 m_user->m_MsgRecv = (struct messageRecv *)pack;
                 //cout << "ID " << m_user->m_MsgRecv->recvFromWhichId << "群聊说: ";
                 //cout << m_user->m_MsgRecv->msg << endl;
-                QString tmp = QString::fromStdString(m_mapUserNameId[m_user->m_MsgRecv->recvFromWhichId]) + QString(" 群聊说: ") + QString(m_user->m_MsgRecv->msg);
-                tmp += "\n";
+
+                QDateTime time = QDateTime::currentDateTime();
+                QString timeStr = time.toString("yyyy-MM-dd hh:mm:ss");
+                QString tmp =   "[" + QString::fromStdString(m_mapUserNameId[m_user->m_MsgRecv->recvFromWhichId]) + "] " +
+                                timeStr + "\n" + QString(m_user->m_MsgRecv->msg) + "\n";
                 ui->textBrowser->insertPlainText(tmp);
 //                ui->textBrowser->insertPlainText(QString("ID "));
 //                ui->textBrowser->insertPlainText(m_mapUserNameId[m_user->m_MsgRecv->recvFromWhichId]);
@@ -187,4 +190,16 @@ void CchatGui::dealWithMsg()
             break;
         }
     }
+}
+
+void CchatGui::on_fontComboBox_currentFontChanged(const QFont &f)
+{
+    ui->textEdit->setCurrentFont(f);
+    ui->textEdit->setFocus();
+}
+
+void CchatGui::on_comboBox_currentIndexChanged(const QString &arg1)
+{
+    ui->textEdit->setFontPointSize(arg1.toDouble());
+    ui->textEdit->setFocus();
 }

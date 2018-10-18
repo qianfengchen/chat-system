@@ -6,6 +6,7 @@
 #include <QMessageBox>
 #include <QThread>
 #include <QTimer>
+#include <QDateTime>
 
 #include "constant-macro.h"
 #include "user.h"
@@ -36,6 +37,10 @@ private slots:
     void on_pushButtonQuit_clicked();
     void on_pushButtonSend_clicked();
     void dealWithMsg();
+
+    void on_fontComboBox_currentFontChanged(const QFont &f);
+
+    void on_comboBox_currentIndexChanged(const QString &arg1);
 
 private:
     Ui::CchatGui *ui;
