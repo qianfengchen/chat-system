@@ -45,7 +45,7 @@ private slots:
 private:
     Ui::CchatGui *ui;
     map<int, string> m_mapUserNameId;
-    int m_onLineUserNumwithoutMe;
+    int m_onLineUserNum;
     list<string> m_userlist;
     CUser *m_user;
     CSaveList *m_readList;
