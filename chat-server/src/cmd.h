@@ -24,8 +24,10 @@ public:
     void setUnloginUserListFromIO(CUserList *unloginUserList);
     void sendHeartBeat(map<int, CUser*>::iterator iter);
     bool passwdAuth(map<int, CUnloginuser*>::iterator loginiter);
-    void fillLoginResult(map<int, CUnloginuser*>::iterator loginiter);
     void printAllLoginUser();
+    void sendUserList(int userid);
+    void userQuit(int id, char* username);
+    void userLogin(int id, char *username);
 
 private:
     CList     *m_packList; //等同于I/O模块的数据包指针链表

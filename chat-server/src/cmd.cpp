@@ -63,21 +63,27 @@ bool CCmd::passwdAuth(map<int, CUnloginuser*>::iterator loginiter)
     }
 }
 
-void CCmd::fillLoginResult(map<int, CUnloginuser*>::iterator loginiter)
+void CCmd::sendUserList(int userid)
 {
-    if (m_map.empty()) {
-        strcpy(loginiter->second->m_loginMsgSend.result, "nouser");
-        return;
-    }
+    m_map[userid]->m_recv.getRecvBuff();
+    m_map[userid]->m_recv.m_userList = (struct userList *)m_map[userid]->m_recv.m_recvBuff;
+
+    m_map[userid]->m_recv.m_userList->head.cmdId = USERLIST;
+    m_map[userid]->m_recv.m_userList->head.userId = userid;
+    m_map[userid]->m_recv.m_userList->head.version = 1;
+    m_map[userid]->m_recv.m_userList->head.length = sizeof(userList);
+
     char tmpResult[1024];
     int tmpUserid = 0;
     char tmpUsername[50];
     char strUserid[10];
     map<int, CUser*>::iterator iter;
     iter = m_map.begin();
+
     while(iter != m_map.end()) {
 
         tmpUserid = iter->second->getUserId();
+
         sprintf(strUserid, ",%d&&", tmpUserid);
         if (iter == m_map.begin()) {
             strcpy(tmpResult, iter->second->getUserName(tmpUsername));
@@ -88,10 +94,38 @@ void CCmd::fillLoginResult(map<int, CUnloginuser*>::iterator loginiter)
         }
         iter++;
     }
+    strcpy(m_map[userid]->m_recv.m_userList->userlist, tmpResult);
 
-    strcpy(loginiter->second->m_loginMsgSend.result, tmpResult);
+    m_packList->packPush(m_map[userid]->m_recv.m_recvBuff);
 }
 
+void CCmd::userQuit(int id, char *username)
+{
+    char *buf = new char[1436];
+    struct userList *tmpList = (struct userList *)buf;
+    tmpList->head.cmdId = USERQUIT;
+    tmpList->head.userId = id;
+    tmpList->head.version = 1;
+    tmpList->head.length = sizeof(userList);
+    char tmpResult[1024];
+    sprintf(tmpResult, "%s,%d", username, id);
+    strcpy(tmpList->userlist, tmpResult);
+    m_packList->packPush(buf);
+}
+
+void CCmd::userLogin(int id, char *username)
+{
+    char *buf = new char[1436];
+    struct userList *tmpList = (struct userList *)buf;
+    tmpList->head.cmdId = USERLOGIN;
+    tmpList->head.userId = id;
+    tmpList->head.version = 1;
+    tmpList->head.length = sizeof(userList);
+    char tmpResult[1024];
+    sprintf(tmpResult, "%s,%d", username, id);
+    strcpy(tmpList->userlist, tmpResult);
+    m_packList->packPush(buf);
+}
 
 void CCmd::sendHeartBeat(map<int, CUser*>::iterator iter)
 {
@@ -122,6 +156,7 @@ void CCmd::setWriteSocketFdFlag(char *pack)
     struct messageSend *stmp;
     struct udpLoseNumRecv *loseTmpRecv;
     struct udpLoseNumSend *loseTmpSend;
+    struct userList *tmpUserList;
     struct baseHandle  *head = (struct baseHandle *)pack;
     map<int, CUser*>::iterator iter = m_map.begin();
     map<int, char*>::iterator udpiter;
@@ -198,6 +233,42 @@ void CCmd::setWriteSocketFdFlag(char *pack)
             pack = NULL;
         break;
 
+        case USERLIST:
+            tmpUserList = (struct userList *)pack;
+
+            m_map[tmpUserList->head.userId]->m_send->m_copy(pack, tmpUserList->head.length);
+            m_map[tmpUserList->head.userId]->m_send->setPosition(tmpUserList->head.length);
+
+            delete pack;
+            pack = NULL;
+        break;
+
+        case USERQUIT:
+            tmpUserList = (struct userList *)pack;
+
+            while (iter != m_map.end())
+            {
+                tmpUserList = (struct userList *)iter->second->m_send->m_copy(pack, tmpUserList->head.length);
+                iter->second->m_send->setPosition(tmpUserList->head.length);
+                iter++;
+            }
+            delete pack;
+            pack = NULL;
+        break;
+        case USERLOGIN:
+            tmpUserList = (struct userList *)pack;
+
+            while (iter != m_map.end())
+            {
+                if (tmpUserList->head.userId != iter->first) {
+                    tmpUserList = (struct userList *)iter->second->m_send->m_copy(pack, tmpUserList->head.length);
+                    iter->second->m_send->setPosition(tmpUserList->head.length);
+                }
+                iter++;
+            }
+            delete pack;
+            pack = NULL;
+        break;
         /*文件*/
         case SENDFILENAME:
             cout << "发文件名" << endl;
@@ -357,11 +428,15 @@ void CCmd::startDealCmd()
                     /*删除*/
                     if (iter->second->deleteFlag1 && iter->second->deleteFlag2)
                     {
+                        int id = iter->second->getUserId();
+                        char name[50];
+                        iter->second->getUserName(name);
                         close(iter->second->getSocket());
                         delete(iter->second);
                         iter->second = NULL;
                         m_map.erase(iter);
                         printAllLoginUser();
+                        userQuit(id, name);
                     }
                     iter++;
                 }
@@ -389,8 +464,7 @@ void CCmd::startDealCmd()
                         /*认证成功*/
                         //cout << "用户名密码认证成功" << endl;
                         loginiter->second->loginState = LOGINSUCCESS;
-                        fillLoginResult(loginiter);
-                        //strcpy(loginiter->second->m_loginMsgSend.result, "Y");
+                        strcpy(loginiter->second->m_loginMsgSend.result, "Y");
                         loginiter->second->m_loginMsgSend.loginHead.userId = loginiter->second->m_userId;
                     } else {
                         cout << "用户名密码认证failed" << endl;
@@ -415,8 +489,10 @@ void CCmd::startDealCmd()
                         user = new CUser;
                         user->setSocket(loginiter->first);
                         user->setUserId(loginiter->second->m_userId);
-                        user->setUserName(loginiter->second->m_loginMsgRecv->name);
+                        user->setUserName(loginiter->second->m_loginMsgRecv->name);                        
                         m_map.insert(pair<int, CUser*>(loginiter->second->m_userId, user));
+                        sendUserList(loginiter->second->m_userId);
+                        userLogin(loginiter->second->m_userId, loginiter->second->m_loginMsgRecv->name);
                         //cout << "有一个正式用户" << endl;
                         m_userListToIO->vcdPush(user);
                         printAllLoginUser();

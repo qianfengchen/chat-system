@@ -21,7 +21,7 @@
 #include <iostream>
 #pragma pack(1)
 
-enum cmdIdEnum{ LOGIN = 1, SENDtoONE, SENDtoOTHERS, SENDFILENAME, FILERET, SENDFILE,
+enum cmdIdEnum{ LOGIN = 1, USERLIST, USERQUIT, USERLOGIN, SENDtoONE, SENDtoOTHERS, SENDFILENAME, FILERET, SENDFILE,
                 UDPSENDFILE, UDPREGISTER, UDPRESEND, HEARTBEAT, QUIT};
 
 enum loginFlag{ LOGINSUCCESS = 1, LOGINFAILED, NOLOGIN};
@@ -51,7 +51,7 @@ struct messageRecv
 struct loginMessageSend
 {
     struct baseHandle loginHead;
-    char result[1024];
+    char result[2];
 };
 
 struct loginMessageRecv
@@ -59,6 +59,12 @@ struct loginMessageRecv
     struct baseHandle loginHead;
     char name[50];
     char passwd[20];
+};
+
+struct userList
+{
+    struct baseHandle head;
+    char userlist[1024];
 };
 
 struct fileRecv
