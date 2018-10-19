@@ -16,6 +16,7 @@ public:
 
     int m_userId;
     SOCKET m_sockfd;
+    string m_userName;
     SOCKADDR_IN m_servaddr;
 
     /*接收*/

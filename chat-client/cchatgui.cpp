@@ -20,6 +20,7 @@ CchatGui::CchatGui(QWidget *parent) :
     m_dealMsgTime->start(500);
 
     nowSendtoWhichId = 0;
+    ui->pushButtonSend->setDisabled(true);
 }
 
 CchatGui::~CchatGui()
@@ -99,12 +100,16 @@ void CchatGui::setUserList(string userList)
     {
         setUsernameIdMap(userList);
         map<int, string>::iterator iter;
-        int i = 0;
+        int i = 1;
         for(iter = m_mapUserNameId.begin(); iter != m_mapUserNameId.end(); iter++) {
+
             QTableWidgetItem *item = new QTableWidgetItem(iter->second.data());
             m_mapUserIdItem.insert(pair<int, QTableWidgetItem*>(iter->first, item));
-            ui->tableWidget->setItem(i, 0, item);
             ui->stackedWidget->addWidget(m_mapUserNameBrowser[iter->second.data()]);
+            if (iter->second.data() == m_user->m_userName)
+                ui->tableWidget->setItem(0, 0, item);
+            else
+                ui->tableWidget->setItem(i, 0, item);
             i++;
         }
     }
@@ -114,6 +119,9 @@ void CchatGui::addUser(string userStr)
 {
     string strName = userStr.substr(0, userStr.find(",", 0));
     string strUserid = userStr.substr(userStr.find(",", 0) + 1, userStr.size());
+
+    cout << strName << " " << strUserid << endl;
+
     m_mapUserNameId.insert(pair<int, string>(atoi(strUserid.c_str()), strName));
     QTextBrowser *browser = new QTextBrowser;
     m_mapUserNameBrowser.insert(pair<string, QTextBrowser*>(strName, browser));
@@ -177,11 +185,6 @@ void CchatGui::setUserFromMainwindow(CUser *user)
 
 void CchatGui::on_pushButtonSend_clicked()
 {
-    if (nowSendtoWhichId == 0)
-    {
-        QMessageBox::information(NULL, NULL, "请选择要发送的对象", "确定");
-        return;
-    }
     QString qmsg = ui->textEdit->toPlainText();
     string msg = qmsg.toStdString();
 
@@ -199,7 +202,11 @@ void CchatGui::on_pushButtonSend_clicked()
     QDateTime time = QDateTime::currentDateTime();
     QString timeStr = time.toString("yyyy-MM-dd hh:mm:ss");
     QString tmpStr = "[me] " + timeStr + "\n" + qmsg + "\n";
+
+    m_mapUserNameBrowser[m_mapUserNameId[nowSendtoWhichId]]->setAlignment(Qt::AlignRight);
     m_mapUserNameBrowser[m_mapUserNameId[nowSendtoWhichId]]->insertPlainText(tmpStr);
+
+    ui->textEdit->clear();
 }
 
 void CchatGui::dealWithMsg()
@@ -231,6 +238,7 @@ void CchatGui::dealWithMsg()
                 QString timeStr = time.toString("yyyy-MM-dd hh:mm:ss");
                 QString tmpStr = "[" + QString::fromStdString(m_mapUserNameId[m_user->m_MsgRecv->recvFromWhichId]) + "] " +
                               timeStr + "\n" + QString(m_user->m_MsgRecv->msg) + "\n";
+                m_mapUserNameBrowser[m_mapUserNameId[m_user->m_MsgRecv->recvFromWhichId]]->setAlignment(Qt::AlignLeft);
                 m_mapUserNameBrowser[m_mapUserNameId[m_user->m_MsgRecv->recvFromWhichId]]->insertPlainText(tmpStr);
                 delete pack;
             break;
@@ -264,10 +272,15 @@ void CchatGui::on_comboBox_currentIndexChanged(const QString &arg1)
 
 void CchatGui::on_tableWidget_itemClicked(QTableWidgetItem *item)
 {
+    QString nowSelectUsername;
     ui->stackedWidget->setCurrentWidget(m_mapUserNameBrowser[item->text().toStdString()]);
     map<int, string>::iterator iter;
     for(iter = m_mapUserNameId.begin(); iter != m_mapUserNameId.end(); iter++) {
-        if (iter->second == item->text().toStdString())
+        if (iter->second == item->text().toStdString()) {
             nowSendtoWhichId = iter->first;
+            nowSelectUsername = QString::fromStdString(iter->second);
+        }
     }
+    ui->labelWho->setText(nowSelectUsername);
+    ui->pushButtonSend->setEnabled(true);
 }

@@ -91,6 +91,8 @@ void MainWindow::on_pushButtonLogin_clicked()
         m_user->m_userId = m_user->m_loginRecvMsg.loginHead.userId;
         //cout << m_user->m_loginRecvMsg.result << endl;
 
+        m_user->m_userName = m_user->m_loginSendMsg.name;
+
         io.setUserFromMainwindow(m_user);
         io.ioStart();
 
