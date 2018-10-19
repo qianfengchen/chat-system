@@ -96,7 +96,7 @@ void MainWindow::on_pushButtonLogin_clicked()
 
         this->hide();
         m_chatGui = new CchatGui();
-        //m_chatGui->setWindowTitle("群聊窗口");
+        m_chatGui->setWindowTitle(m_user->m_loginSendMsg.name);
         //m_chatGui->setUserList(m_user->m_loginRecvMsg.result);
         m_chatGui->setUserFromMainwindow(m_user);
         m_chatGui->setReadListFromIO(io.getReadList());

@@ -35,6 +35,7 @@ public:
     void setUserFromMainwindow(CUser *user);
     void setReadListFromIO(CSaveList *list);
     void addUser(string userStr);
+    void deleteUser(string userStr);
 
 private slots:
     void on_pushButtonQuit_clicked();
@@ -50,12 +51,14 @@ private slots:
 private:
     Ui::CchatGui *ui;
     map<int, string> m_mapUserNameId;
+    map<int, QTableWidgetItem*> m_mapUserIdItem;
     map<string, QTextBrowser*> m_mapUserNameBrowser;
     int m_onLineUserNum;
     list<string> m_userlist;
     CUser *m_user;
     CSaveList *m_readList;
     QTimer *m_dealMsgTime;
+    int nowSendtoWhichId;
 };
 
 #endif // CCHATGUI_H
