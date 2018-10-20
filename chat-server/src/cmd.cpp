@@ -52,15 +52,28 @@ void CCmd::m_usleep(int time)
 
 bool CCmd::passwdAuth(map<int, CUnloginuser*>::iterator loginiter)
 {
+    bool repeat = false;
+    char name[50];
     if ((strcmp(loginiter->second->m_loginMsgRecv->name, "admin") == 0 && strcmp(loginiter->second->m_loginMsgRecv->passwd, "admin") == 0)
          || (strcmp(loginiter->second->m_loginMsgRecv->name, "gt") == 0 && strcmp(loginiter->second->m_loginMsgRecv->passwd, "gt") == 0)
          || (strcmp(loginiter->second->m_loginMsgRecv->name, "abc") == 0 && strcmp(loginiter->second->m_loginMsgRecv->passwd, "123") == 0))
     {
-        return true;
-    } else
-    {
-        return false;
+
+        map<int, CUser*>::iterator iter;
+        iter = m_map.begin();
+        while(iter != m_map.end()) {
+
+            if (strcmp(loginiter->second->m_loginMsgRecv->name, iter->second->getUserName(name)) == 0)
+            {
+                repeat = true;
+            }
+            iter++;
+        }
+        if (!repeat)
+            return true;
     }
+
+    return false;
 }
 
 void CCmd::sendUserList(int userid)
