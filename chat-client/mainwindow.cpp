@@ -46,6 +46,8 @@ void MainWindow::on_pushButtonLogin_clicked()
         cout << "connect error !" << endl;
         cout << WSAGetLastError() << endl;
         closesocket(m_user->m_sockfd);
+        QMessageBox::critical(NULL, "错误", "连接服务器失败");
+        exit(0);
     } else {
         cout << "connect success !" << endl;
     }
@@ -62,16 +64,19 @@ void MainWindow::on_pushButtonLogin_clicked()
     ret = send(m_user->m_sockfd, (const char *)&m_user->m_loginSendMsg, m_user->m_loginSendMsg.loginHead.length, 0);
     if (ret <= 0)
     {
-        return;
+        cout << "send" << ret << endl;
+        exit(0);
     }
     ret = recv(m_user->m_sockfd, (char *)&m_user->m_loginRecvMsg, sizeof(loginMessageRecv), 0);
     if (ret <= 0)
     {
-        return;
+        cout << "recv" << ret << endl;
+        exit(0);
     }
     if(strcmp(m_user->m_loginRecvMsg.result, "N") == 0)
     {
-        cout << "input error" << endl;
+        cout << "result = N" << endl;
+        QMessageBox::critical(NULL, "错误", "登录失败");
         exit(0);
     }else
     {

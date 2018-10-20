@@ -281,6 +281,7 @@ void CchatGui::on_tableWidget_itemClicked(QTableWidgetItem *item)
             nowSelectUsername = QString::fromStdString(iter->second);
         }
     }
-    ui->labelWho->setText(nowSelectUsername);
+    QString text = "正在与" + nowSelectUsername + "聊天";
+    ui->labelWho->setText(text);
     ui->pushButtonSend->setEnabled(true);
 }
